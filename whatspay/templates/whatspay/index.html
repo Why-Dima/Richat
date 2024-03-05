@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% csrf_token %}
+<html> 
+  <head>
+    <title>Buy cool new product</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <div class="topnav">
+      <h1>Payments</h1>
+    </div> 
+    {% for p in product %}
+    <section class="section">  
+      <div class="product">
+        <!-- <img src="https://i.imgur.com/EHyR2nP.png" width="200" height="211" alt="The cover of Stubborn Attachments" /> -->
+        <div class="description">
+          <h3>{{ p.name }}</h3>
+          <h4>{{ p.description }}</h4>
+          <h5>${{ p.get_price }}</h5>
+        </div>
+      </div>
+      <div class="button"> 
+        <form action="{% url 'create-session' p.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit" id="checkout-button">Checkout</button>
+        </form>
+      </div>
+    </section>
+    {% endfor %}
+  </body>
+</html>
